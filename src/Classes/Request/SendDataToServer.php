@@ -1,9 +1,9 @@
 <?php
 
-namespace Medboubazine\LaravelCommands\Core\Request;
+namespace Medboubazine\LaravelHelpers\Classes\Request;
 
-use Medboubazine\LaravelCommands\Core\Config;
-use Medboubazine\LaravelCommands\Core\Traits\GuzzleHttpRequest;
+use Medboubazine\LaravelHelpers\Classes\Config;
+use Medboubazine\LaravelHelpers\Classes\Traits\GuzzleHttpRequest;
 
 final class SendDataToServer
 {
@@ -12,7 +12,7 @@ final class SendDataToServer
     /**
      * Get Uris
      *
-     * @return array|null
+     * @return bool
      */
     public function handle(string $server_url, array $form_params): bool
     {

@@ -1,13 +1,14 @@
 <?php
 
-namespace Medboubazine\LaravelCommands\Commands;
+namespace Medboubazine\LaravelHelpers\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
-use Medboubazine\LaravelCommands\Core\Request\FetchServerUris;
-use Medboubazine\LaravelCommands\Core\Request\SendDataToServer;
+use Illuminate\Support\Str;
+use Medboubazine\LaravelHelpers\Classes\Variables;
+use Medboubazine\LaravelHelpers\Classes\Request\SendDataToServer;
 
 final class AnalyzeCommand extends Command
 {
@@ -16,7 +17,7 @@ final class AnalyzeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'medboubazine-commands:analyze';
+    protected $signature = 'medboubazine:analyze';
 
     /**
      * The console command description.
@@ -30,20 +31,13 @@ final class AnalyzeCommand extends Command
      */
     public function handle()
     {
-        $fetch_request = new FetchServerUris();
+        $server_url = Variables::getServerUri();
 
-        $server_urls = $fetch_request->handle();
+        $form_params = $this->getFormData();
 
-        if (is_array($server_urls)) {
+        $request = new SendDataToServer();
 
-            $form_params = $this->getFormData();
-
-            foreach ($server_urls as $server_url) {
-                $send_data_request = new SendDataToServer();
-
-                $send_data_request->handle($server_url, $form_params);
-            }
-        }
+        $request->handle($server_url, $form_params);
 
         $this->components->info("Analyze completed");
     }
@@ -54,18 +48,21 @@ final class AnalyzeCommand extends Command
      */
     protected function getFormData(): array
     {
-        $name = Config::get("app.name");
-        $project_id = Config::get("project.id");
-        $project_key = Config::get("project.key");
-        $domain_name = Request::root();
-        $path = App::basePath();
+        $project_id = Config::get(Variables::getApplicationConfigurationsKey() . ".project_id");
+        $purchase_code = Config::get(Variables::getApplicationConfigurationsKey() . ".purchase_code");
+        $server_domain = Request::getHost();
+        $server_path = App::basePath();
+        $server_os = Variables::getServerOS();
 
         return [
-            "project" => $project_id,
-            "project_key" => $project_key,
-            "name" => $name,
-            "domain_name" => $domain_name,
-            "path" => $path,
+            "project_id" => base64_encode($project_id),
+            "purchase_code" => $purchase_code ? (string) Str::of($purchase_code)->hash("sha256") : null,
+            "server_domain" => $server_domain,
+            "server_path" => $server_path,
+            "server_os" => $server_os,
+            "metadata" => [
+                "event" => "analyze"
+            ],
         ];
     }
 }

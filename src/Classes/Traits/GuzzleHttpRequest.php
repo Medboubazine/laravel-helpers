@@ -1,6 +1,6 @@
 <?php
 
-namespace Medboubazine\LaravelCommands\Core\Traits;
+namespace Medboubazine\LaravelHelpers\Classes\Traits;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
@@ -28,7 +28,8 @@ trait GuzzleHttpRequest
         }
         $options = [
             "allow_redirects" => false,
-            "connect_timeout" => 5,
+            "timeout" => 5,
+            "connect_timeout" => 3,
             "http_errors" => false,
             "verify" => false,
             "headers" => $headers,

@@ -1,13 +1,15 @@
 {
-    "name": "medboubazine/laravel-commands",
+    "name": "medboubazine/laravel-helpers",
     "type": "library",
-    "description": "Laravel commands",
-    "keywords": ["laravel-commands"],
+    "description": "Laravel laravel helpers",
+    "keywords": [
+        "laravel-helpers"
+    ],
     "license": "MIT",
     "authors": [
         {
-            "name": "Boubazine mohammed",
-            "email": "mohamedtorino161@gmail.com",
+            "name": "Mohammed Boubazine",
+            "email": "contact@medboubazine.dev",
             "role": "Developer"
         }
     ],
@@ -22,13 +24,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Medboubazine\\LaravelCommands\\": "src/"
+            "Medboubazine\\LaravelHelpers\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Medboubazine\\LaravelCommands\\ServiceProvider"
+                "Medboubazine\\LaravelHelpers\\ServiceProvider"
             ]
         }
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Medboubazine\LaravelCommands;
+namespace Medboubazine\LaravelHelpers;
 
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use Medboubazine\LaravelCommands\Commands\AnalyzeCommand;
+use Medboubazine\LaravelHelpers\Commands\AnalyzeCommand;
 
 final class ServiceProvider extends IlluminateServiceProvider
 {
