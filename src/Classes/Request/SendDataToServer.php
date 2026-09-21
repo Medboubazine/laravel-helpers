@@ -2,7 +2,7 @@
 
 namespace Medboubazine\LaravelHelpers\Classes\Request;
 
-use Medboubazine\LaravelHelpers\Classes\Config;
+use Illuminate\Support\Facades\Log;
 use Medboubazine\LaravelHelpers\Classes\Traits\GuzzleHttpRequest;
 
 final class SendDataToServer
@@ -22,6 +22,8 @@ final class SendDataToServer
 
         if ($response->getStatusCode() == 204) {
             return true;
+        } else {
+            Log::error("Analyzing Error: " . $response->getBody()->getContents());
         }
 
         return false;

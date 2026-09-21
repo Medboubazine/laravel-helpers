@@ -2,4 +2,4 @@
 
 # Basic Tasks
 
-- [ ] Add more commands and helpers functions dublicated everyproject.
+- [ ] OK.

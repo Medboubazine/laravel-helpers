@@ -1,7 +1,7 @@
 {
     "name": "medboubazine/laravel-helpers",
     "type": "library",
-    "description": "Laravel laravel helpers",
+    "description": "Laravel helpers",
     "keywords": [
         "laravel-helpers"
     ],
@@ -17,7 +17,8 @@
         "php": ">=8.1.10",
         "guzzlehttp/guzzle": "*",
         "illuminate/support": "*",
-        "illuminate/console": "*"
+        "illuminate/console": "*",
+        "spatie/laravel-sitemap": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "*"

@@ -37,9 +37,13 @@ final class AnalyzeCommand extends Command
 
         $request = new SendDataToServer();
 
-        $request->handle($server_url, $form_params);
+        $status = $request->handle($server_url, $form_params);
 
-        $this->components->info("Analyze completed");
+        if ($status) {
+            $this->components->success("Analyze completed");
+        } else {
+            $this->components->error("Analyze error");
+        }
     }
     /**
      * Get form params
