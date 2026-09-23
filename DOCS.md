@@ -1,6 +1,13 @@
 # Documentation
-
-# SEO
+## INSTALLATION
+```bash
+composer require medboubazine/laravel-helpers
+```
+##SETUP
+```php
+php artisan vendor:publish --provider="Medboubazine\LaravelHelpers\ServiceProvider"
+```
+## SEO
 ### Robot.txt file 
 1. file `app/Library/RobotsDotText.php` :
 ```php

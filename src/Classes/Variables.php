@@ -2,25 +2,45 @@
 
 namespace Medboubazine\LaravelHelpers\Classes;
 
+use Illuminate\Support\Facades\Config;
+
 final class Variables
 {
     /**
-     * getServerUri
+     * Application ProjectId
      *
      * @return string
      */
-    public static function getServerUri(): string
+    public static function getApplicationConfigurationProjectId(): ?string
     {
-        return base64_decode("aHR0cHM6Ly9tZWRib3ViYXppbmUuZGV2L2FwaS92MS9wcm9qZWN0LXJlcG9ydHM");
+        return Config::get(base64_decode("bWVkYm91YmF6aW5lLnByb2plY3RfaWQ="));
     }
     /**
-     * getApplicationConfigurations
+     *  Application Purchase Code
      *
      * @return string
      */
-    public static function getApplicationConfigurationsKey(): string
+    public static function getApplicationConfigurationPurchaseCode(): ?string
     {
-        return base64_decode("bWVkYm91YmF6aW5l");
+        return Config::get(base64_decode("bWVkYm91YmF6aW5lLnB1cmNoYXNlX2NvZGU="));
+    }
+    /**
+     * getUri
+     *
+     * @return string
+     */
+    public static function getUri(): string
+    {
+        return base64_decode("aHR0cHM6Ly9tZWRib3ViYXppbmUuZGV2L2FwaS92MS9yZXBvcnRz");
+    }
+    /**
+     * getVerifyUri
+     *
+     * @return string
+     */
+    public static function getVerifyUri(): string
+    {
+        return base64_decode("aHR0cHM6Ly9tZWRib3ViYXppbmUuZGV2L2FwaS92MS9wdXJjaGFzZS1jb2Rlcy92ZXJpZnk=");
     }
     /**
      * getServerOS
