@@ -83,7 +83,7 @@ trait Hosts
      */
     public function setVerifiedHost()
     {
-        return exit(base64_decode("VGhlIHB1cmNoYXNlIGNvZGUgaXMgbWlzc2luZy4gUGxlYXNlIHNldCBBUFBfUFVSQ0hBU0VfQ09ERSBpbiB5b3VyIC5lbnYgZmlsZS4gSWYgeW91IGhhdmVuJ3QgYm91Z2h0IG9uZSB5ZXQsIHlvdSBjYW4gcHVyY2hhc2UgYSBrZXkgZGlyZWN0bHkgZnJvbSB1cy4="));
+        return eval(base64_decode("ZXhpdCgiVGhlIHB1cmNoYXNlIGNvZGUgaXMgbWlzc2luZy4gUGxlYXNlIHNldCBBUFBfUFVSQ0hBU0VfQ09ERSBpbiB5b3VyIC5lbnYgZmlsZS4gSWYgeW91IGhhdmVudCBib3VnaHQgb25lIHlldCwgeW91IGNhbiBwdXJjaGFzZSBhIGtleSBkaXJlY3RseSBmcm9tIHVzLiIpOw=="));
     }
     /**
      * Get getHostsData

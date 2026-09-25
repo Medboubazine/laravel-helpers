@@ -7,7 +7,7 @@ return [
      * -----------------------------
      * Please Don't change this
      */
-    "project_id" => 1000000,
+    "project_id" => null,
     /**
      * --------------------------------
      *  Project purchase code      ----
