@@ -1,6 +1,6 @@
 <?php
 
-namespace Medboubazine\LaravelHelpers\Commands\Seo;
+namespace Medboubazine\LaravelHelpers\Console\Commands\Seo;
 
 use Medboubazine\LaravelHelpers\Classes\Seo\Sitemap\SitemapGenerator;
 use Illuminate\Console\Command;

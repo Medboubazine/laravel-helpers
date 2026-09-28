@@ -76,4 +76,10 @@ class Sitemaps extends SitemapGenerator
 ```bash
 php artisan medboubazine:seo:sitemaps -C "App\Library\Sitemaps"
 ```
+## EXCHANGE RATES
 
+1. enable plugin in config file `config/medboubazine.php`.
+2. use vendor:publish command and select tag 'medboubazine-exchange-rates' to publish migration files.
+3. You can create custom model for exchange rates but you need to extend `Medboubazine\LaravelHelpers\Models\ExchangeRate` to your model.
+4. Customize currencies list in model function currencies() and return array of currencies you want to support.
+5. You can Create/Update/Delete exchange rates using facade `Medboubazine\LaravelHelpers\Facades\ExchangeRateFacade` or using model.

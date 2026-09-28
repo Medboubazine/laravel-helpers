@@ -1,6 +1,6 @@
 <?php
 
-namespace Medboubazine\LaravelHelpers\Commands;
+namespace Medboubazine\LaravelHelpers\Console\Commands;
 
 use Illuminate\Console\Command;
 use Medboubazine\LaravelHelpers\Classes\Configuration\ConfigurationCheck;

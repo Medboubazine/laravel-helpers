@@ -2,12 +2,15 @@
 
 namespace Medboubazine\LaravelHelpers;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
-use Medboubazine\LaravelHelpers\Commands\AnalyzeCommand;
-use Medboubazine\LaravelHelpers\Commands\Seo\GenerateRobotsDotTextCommand;
-use Medboubazine\LaravelHelpers\Commands\Seo\GenerateSitemapCommand;
+use Medboubazine\LaravelHelpers\Console\Commands\AnalyzeCommand;
+use Medboubazine\LaravelHelpers\Console\Commands\Seo\GenerateRobotsDotTextCommand;
+use Medboubazine\LaravelHelpers\Console\Commands\Seo\GenerateSitemapCommand;
 use Medboubazine\LaravelHelpers\Http\Middleware\AuthorizedHostsMiddleware;
+use Medboubazine\LaravelHelpers\Services\ExchangeRateService;
 
 final class ServiceProvider extends IlluminateServiceProvider
 {
@@ -16,6 +19,13 @@ final class ServiceProvider extends IlluminateServiceProvider
      */
     public function register(): void
     {
+        if (boolval(Config::get("medboubazine.plugins.exchange-rates.enabled"))) {
+            //
+            $this->app->singleton('medboubazine-exchange-rate-service', function ($app) {
+                return new ExchangeRateService();
+            });
+        }
+
         // Merge configurations
         $this->mergeConfigFrom(
             __DIR__ . '/config/medboubazine.php',
@@ -45,6 +55,14 @@ final class ServiceProvider extends IlluminateServiceProvider
                     GenerateSitemapCommand::class,
                 ],
             );
+            //Migrations
+            if (boolval(Config::get("medboubazine.plugins.exchange-rates.enabled"))) {
+                //
+                $time = Carbon::now()->format("Y_m_d_His");
+                $this->publishes([
+                    __DIR__ . '/database/migrations/create_exchange_rates_table.php' => database_path("migrations/{$time}_create_exchange_rates_table.php"),
+                ], 'medboubazine-exchange-rates');
+            }
         }
         /// ==========================
         /// Middleware              ==
@@ -59,10 +77,7 @@ final class ServiceProvider extends IlluminateServiceProvider
     protected function middleware()
     {
         $kernel = $this->app->make(Kernel::class);
-        if (method_exists($kernel, 'appendGlobalMiddleware')) {
-            $kernel->appendGlobalMiddleware(AuthorizedHostsMiddleware::class);
-        } else {
-            $kernel->{'pushMiddleware'}(AuthorizedHostsMiddleware::class);
-        }
+
+        $kernel->pushMiddleware(AuthorizedHostsMiddleware::class);
     }
 }
