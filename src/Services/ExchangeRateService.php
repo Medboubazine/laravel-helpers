@@ -170,12 +170,12 @@ final class ExchangeRateService
             throw new Exception("Exchange rate {$from_currency}:{$to_currency} or the inverse, is not exists.");
         }
         //
-        $item->from_amount = Number::format(1, 10);
-        $item->to_amount = Number::format($rate, 10);
+        $item->from_amount = Number::format(1, 18);
+        $item->to_amount = Number::format($rate, 18);
 
         //inverse
-        $inverse_item->from_amount = Number::format(1, 10);
-        $inverse_item->to_amount = Number::format(1 / $rate, 10);
+        $inverse_item->from_amount = Number::format(1, 18);
+        $inverse_item->to_amount = bcdiv(1, $rate, 18);
 
         return $item->update() && $inverse_item->update();
     }

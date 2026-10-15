@@ -27,8 +27,13 @@ class ExchangeRate extends Model
      */
     protected function rate(): Attribute
     {
+        $from_amount = $this->from_amount > 0 ? $this->from_amount : 1;
+        $to_amount = $this->to_amount;
+
+        $rate = bcdiv($to_amount, $from_amount, 18);
+
         return Attribute::get(
-            fn(mixed $value, array $attributes) => $attributes['to_amount'] / ($attributes['from_amount'] > 0 ? $attributes['from_amount'] : 1)
+            fn(mixed $value, array $attributes) => $rate
         );
     }
     /**
