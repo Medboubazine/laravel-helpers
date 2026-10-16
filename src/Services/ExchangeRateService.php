@@ -9,7 +9,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
-use Medboubazine\LaravelHelpers\Classes\Number\Number;
 
 final class ExchangeRateService
 {
@@ -53,26 +52,27 @@ final class ExchangeRateService
      * @param string $from
      * @param string $to
      * @param numeric $amount
-     * @param integer $decimals
      * @return string
      */
-    public function exchange(string $from, string $to, $amount, $decimals = 2): string
+    public function exchange(string $from, string $to, $amount): string
     {
         if ($from === $to) {
-            return Number::format($amount, $decimals);
+            return (string) $amount;
         }
 
         $rates = $this->getAllRates();
 
-        $rate = $rates->where('from_currency', $from)
+        $rate_item = $rates->where('from_currency', $from)
             ->where('to_currency', $to)
             ->first();
 
-        if (!$rate) {
-            throw new Exception("Exchange rate {$from}:{$to} is not exists.");
+        if (!$rate_item) {
+            throw new Exception("Exchange rate {$from}:{$to} does not exist.");
         }
 
-        return Number::format($amount * $rate['rate'], $decimals);
+        $rate_value = $rate_item['rate'] ?? '1';
+
+        return bcmul((string) $amount, (string) $rate_value, 18);
     }
     /**
      * Get all rates from database
@@ -170,12 +170,12 @@ final class ExchangeRateService
             throw new Exception("Exchange rate {$from_currency}:{$to_currency} or the inverse, is not exists.");
         }
         //
-        $item->from_amount = Number::format(1, 18);
-        $item->to_amount = Number::format($rate, 18);
+        $item->from_amount = 1;
+        $item->to_amount = $rate;
 
         //inverse
-        $inverse_item->from_amount = Number::format(1, 18);
-        $inverse_item->to_amount = bcdiv(1, $rate, 18);
+        $inverse_item->from_amount = $rate;
+        $inverse_item->to_amount = 1;
 
         return $item->update() && $inverse_item->update();
     }

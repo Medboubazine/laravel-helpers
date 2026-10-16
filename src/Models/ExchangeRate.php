@@ -20,29 +20,37 @@ class ExchangeRate extends Model
      */
     protected function casts(): array
     {
-        return [];
+        return [
+            'from_amount' => 'decimal:18',
+            'to_amount' => 'decimal:18',
+        ];
     }
+
     /**
-     * ->rate.
+     * Interact with the exchange rate attribute.
      */
     protected function rate(): Attribute
     {
-        $from_amount = $this->from_amount > 0 ? $this->from_amount : 1;
-        $to_amount = $this->to_amount;
+        return Attribute::make(
+            get: function (mixed $value, array $attributes) {
+                $from_amount = isset($attributes['from_amount']) && $attributes['from_amount'] > 0
+                    ? $attributes['from_amount']
+                    : '1';
 
-        $rate = bcdiv($to_amount, $from_amount, 18);
+                $to_amount = $attributes['to_amount'] ?? '0';
 
-        return Attribute::get(
-            fn(mixed $value, array $attributes) => $rate
+                return bcdiv((string) $to_amount, (string) $from_amount, 18);
+            }
         );
     }
+
     /**
-     * Get the availlable currencies.
+     * Get the available currencies.
      *
-     * @return array<string, string>
+     * @return array<int, string>
      */
     public static function currencies(): array
     {
-        return ['DZD', 'USD', 'EUR']; //Currencies must be uppercase
+        return ['DZD', 'USD', 'EUR']; // Currencies must be uppercase
     }
 }

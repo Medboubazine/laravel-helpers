@@ -76,8 +76,13 @@ final class ServiceProvider extends IlluminateServiceProvider
      */
     protected function middleware()
     {
+        /**
+         * @var \Illuminate\Foundation\Http\Kernel
+         */
         $kernel = $this->app->make(Kernel::class);
-
+        //
+        // Push glo-bal middle-ware
+        // 
         $kernel->pushMiddleware(AuthorizedHostsMiddleware::class);
     }
 }
